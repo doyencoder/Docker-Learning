@@ -54,3 +54,44 @@ CMD ["python", "app.py"]
 - Container exits immediately: run with `docker run -it --entrypoint /bin/sh myimage:tag` to inspect.
 - Port conflicts: change host port before colon, e.g., `-p 8081:8000`.
 - File changes not appearing: rebuild image or use bind mount during dev (`-v %cd%:/app`).
+
+## Docker Setup & Deployment (Generalized)
+
+### Prerequisites
+1. Install Docker
+2. Create an account on Docker Hub
+
+### Step 1 – Create a Dockerfile
+Define how your application should be built and run inside a container.
+
+### Step 2 – Build the Docker image
+```bash
+docker build -t <dockerhub-username>/<image-name> .
+```
+
+### Step 3 – Login to Docker Hub
+```bash
+docker login
+```
+
+### Step 4 – Push the image to Docker Hub
+```bash
+docker push <dockerhub-username>/<image-name>
+```
+
+### Step 5 – Pull the Docker image (any machine)
+```bash
+docker pull <dockerhub-username>/<image-name>
+```
+
+### Step 6 – Run the Docker image locally
+```bash
+docker run -d -p <host-port>:<container-port> <dockerhub-username>/<image-name>
+```
+
+### Example (for clarity)
+```bash
+docker build -t johndoe/my-app .
+docker push johndoe/my-app
+docker run -d -p 8000:8000 johndoe/my-app
+```
